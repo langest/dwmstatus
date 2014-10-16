@@ -18,8 +18,8 @@ import (
 
 var dpy = C.XOpenDisplay(nil)
 
-func getVolume() int {
-	return int(C.get_volume())
+func getVolumePerc() int {
+	return int(C.get_volume_perc())
 }
 
 func getBatteryPercentage(path string) (perc int, err error) {
@@ -124,8 +124,8 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
-		vol := getVolume()
-		s := formatStatus("%s :: %ddB :: %s :: %d%% :: %s", mpd, vol, lavg, bat, tim)
+		vol := getVolumePerc()
+		s := formatStatus("%s :: %d%% :: %s :: %d%% :: %s", mpd, vol, lavg, bat, tim)
 		setStatus(s)
 		time.Sleep(time.Second)
 	}

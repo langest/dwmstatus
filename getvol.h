@@ -29,3 +29,7 @@ int get_volume(void) {
 	snd_hctl_close(hctl);
 	return vol;
 }
+
+int get_volume_perc() {
+	return 100*get_volume()/74; // 74 is the max number of decibels that will be returned bu get_volume()
+}
