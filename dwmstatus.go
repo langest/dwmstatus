@@ -125,7 +125,7 @@ func main() {
 			log.Println(err)
 		}
 		vol := getVolume()
-		s := formatStatus("%s :: %ddB :: %s :: %s :: %d%%", mpd, vol, lavg, tim, bat)
+		s := formatStatus("%s :: %ddB :: %s :: %d%% :: %s", mpd, vol, lavg, bat, tim)
 		setStatus(s)
 		time.Sleep(time.Second)
 	}
