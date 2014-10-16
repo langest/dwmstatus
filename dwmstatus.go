@@ -1,7 +1,10 @@
 package main
 
-// #cgo LDFLAGS: -lX11
-// #include <X11/Xlib.h>
+/*
+#cgo LDFLAGS: -lX11 -lasound
+#include <X11/Xlib.h>
+#include "getvol.h"
+*/
 import "C"
 
 import (
@@ -14,6 +17,10 @@ import (
 )
 
 var dpy = C.XOpenDisplay(nil)
+
+func getVolume() int {
+	return int(C.get_volume())
+}
 
 func getBatteryPercentage(path string) (perc int, err error) {
 	energy_now, err := ioutil.ReadFile(fmt.Sprintf("%s/energy_now", path))
@@ -104,20 +111,21 @@ func main() {
 		log.Fatal("Can't open display")
 	}
 	for {
-		t := time.Now().Format("Mon 02 15:04")
-		b, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
+		tim := time.Now().Format("Mon 02 Jan 15:04")
+		bat, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
 		if err != nil {
 			log.Println(err)
 		}
-		l, err := getLoadAverage("/proc/loadavg")
+		lavg, err := getLoadAverage("/proc/loadavg")
 		if err != nil {
 			log.Println(err)
 		}
-		m, err := nowPlaying("localhost:6600")
+		mpd, err := nowPlaying("localhost:6600")
 		if err != nil {
 			log.Println(err)
 		}
-		s := formatStatus("%s :: %s :: %s :: %d%%", m, l, t, b)
+		vol := getVolume()
+		s := formatStatus("%s :: %ddB :: %s :: %s :: %d%%", mpd, vol, lavg, tim, bat)
 		setStatus(s)
 		time.Sleep(time.Second)
 	}
