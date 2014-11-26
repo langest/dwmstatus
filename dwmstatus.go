@@ -112,20 +112,20 @@ func main() {
 	}
 	for {
 		tim := time.Now().Format("Mon 02 Jan 15:04")
-		bat, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
-		if err != nil {
-			log.Println(err)
-		}
-		lavg, err := getLoadAverage("/proc/loadavg")
-		if err != nil {
-			log.Println(err)
-		}
-		mpd, err := nowPlaying("localhost:6600")
-		if err != nil {
-			log.Println(err)
-		}
+		bat, _ := getBatteryPercentage("/sys/class/power_supply/BAT0")
+		//		if err != nil {
+		//			log.Println(err)
+		//		}
+		//lavg, _ := getLoadAverage("/proc/loadavg")
+		//		if err != nil {
+		//			log.Println(err)
+		//		}
+		mpd, _ := nowPlaying("localhost:6600")
+		//		if err != nil {
+		//			log.Println(err)
+		//		}
 		vol := getVolumePerc()
-		s := formatStatus("%s :: %d%% :: %s :: %d%% :: %s", mpd, vol, lavg, bat, tim)
+		s := formatStatus("%s || Vol: %d%% || Bat: %d%% || %s", mpd, vol, bat, tim)
 		setStatus(s)
 		time.Sleep(time.Second)
 	}
