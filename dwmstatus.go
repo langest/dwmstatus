@@ -16,7 +16,13 @@ import (
 	"time"
 )
 
-var dpy = C.XOpenDisplay(nil)
+const (
+	mpdAddr = "localhost:6600"
+)
+
+var (
+	dpy = C.XOpenDisplay(nil)
+)
 
 func getVolumePerc() int {
 	return int(C.get_volume_perc())
@@ -120,7 +126,7 @@ func main() {
 		//		if err != nil {
 		//			log.Println(err)
 		//		}
-		mpd, _ := nowPlaying("localhost:6600")
+		mpd, _ := nowPlaying(mpdAddr)
 		//		if err != nil {
 		//			log.Println(err)
 		//		}
