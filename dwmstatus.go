@@ -28,21 +28,43 @@ func getVolumePerc() int {
 	return int(C.get_volume_perc())
 }
 
-func getBatteryPercentage(path string) (perc int, err error) {
+func getBatteryStatus(path string) (status string, err error) {
+	present, err := ioutil.ReadFile(fmt.Sprintf("%s/present", path))
+	if string(present) != "1" {
+		status = "No battery"
+	}
+
 	energy_now, err := ioutil.ReadFile(fmt.Sprintf("%s/energy_now", path))
 	if err != nil {
-		perc = -1
 		return
 	}
 	energy_full, err := ioutil.ReadFile(fmt.Sprintf("%s/energy_full", path))
 	if err != nil {
-		perc = -1
 		return
+	}
+	charging, err := ioutil.ReadFile(fmt.Sprintf("%s/status", path))
+	if err != nil {
+		return
+	}
+
+	var ch string
+	c := strings.TrimSpace(string(charging))
+	switch c {
+	case "Charging":
+		ch = "+"
+	case "Discharging":
+		ch = "-"
+	case "Full":
+		ch = "="
+	default: //Something went wrong determining if we are charging or discharging.
+		ch = "?"
 	}
 	var enow, efull int
 	fmt.Sscanf(string(energy_now), "%d", &enow)
 	fmt.Sscanf(string(energy_full), "%d", &efull)
-	perc = enow * 100 / efull
+
+	//Format the status message
+	status = fmt.Sprintf("Bat: %s %d%%", ch, enow*100/efull)
 	return
 }
 
@@ -118,10 +140,10 @@ func main() {
 	}
 	for {
 		tim := time.Now().Format("Mon 02 Jan 15:04")
-		bat, _ := getBatteryPercentage("/sys/class/power_supply/BAT0")
-		//		if err != nil {
-		//			log.Println(err)
-		//		}
+		bat, err := getBatteryStatus("/sys/class/power_supply/BAT0")
+		if err != nil {
+			log.Println(err)
+		}
 		//lavg, _ := getLoadAverage("/proc/loadavg")
 		//		if err != nil {
 		//			log.Println(err)
@@ -131,7 +153,7 @@ func main() {
 		//			log.Println(err)
 		//		}
 		vol := getVolumePerc()
-		s := formatStatus("%s || Vol: %d%% || Bat: %d%% || %s", mpd, vol, bat, tim)
+		s := formatStatus("%s || Vol: %d%% || %s || %s", mpd, vol, bat, tim)
 		setStatus(s)
 		time.Sleep(time.Second)
 	}
