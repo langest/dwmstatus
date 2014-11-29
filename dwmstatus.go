@@ -136,10 +136,10 @@ func main() {
 	}
 	for {
 		tim := time.Now().Format("Mon 02 Jan 15:04")
-		bat, err := getBatteryStatus("/sys/class/power_supply/BAT0")
-		if err != nil {
-			log.Println(err)
-		}
+		bat, _ := getBatteryStatus("/sys/class/power_supply/BAT0")
+		//if err != nil {
+		//	log.Println(err)
+		//}
 		//lavg, _ := getLoadAverage("/proc/loadavg")
 		//		if err != nil {
 		//			log.Println(err)
@@ -151,6 +151,6 @@ func main() {
 		vol := getVolumePerc()
 		s := formatStatus("%s || Vol: %d%% || %s || %s", mpd, vol, bat, tim)
 		setStatus(s)
-		time.Sleep(time.Second)
+		time.Sleep(time.Second * 1)
 	}
 }
