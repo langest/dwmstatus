@@ -103,11 +103,7 @@ func nowPlaying(addr string) (np string, err error) {
 		return
 	}
 
-	message = "currentsong\n"
-	conn.Write([]byte(message))
-	conn.Read(reply)
-	r = string(reply)
-	arr = strings.Split(string(r), "\n")
+	arr = strings.Split(arr[9], "\n") //arr[9] is the song information according to the mpd documentation
 	if len(arr) > 5 {
 		var artist, title string
 		for _, info := range arr {
