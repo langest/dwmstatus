@@ -141,18 +141,18 @@ func main() {
 	}
 	for {
 		tim := time.Now().Format("Mon 02 Jan 15:04")
-		bat, _ := getBatteryStatus("/sys/class/power_supply/BAT0")
+		bat, err := getBatteryStatus("/sys/class/power_supply/BAT0")
 		//if err != nil {
-		//	log.Println(err)
+		//log.Println(err)
 		//}
 		//lavg, _ := getLoadAverage("/proc/loadavg")
 		//		if err != nil {
 		//			log.Println(err)
 		//		}
-		mpd, _ := nowPlaying(mpdAddr)
-		//		if err != nil {
-		//			log.Println(err)
-		//		}
+		mpd, err := nowPlaying(mpdAddr)
+		if err != nil {
+			log.Println(err)
+		}
 		vol := getVolumePerc()
 		s := formatStatus("%s || Vol: %d%% || %s || %s", mpd, vol, bat, tim)
 		setStatus(s)
