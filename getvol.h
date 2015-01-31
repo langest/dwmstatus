@@ -4,7 +4,7 @@
 #include <alsa/asoundlib.h>
 #include <alsa/control.h>
 
-int get_volume(void) {
+int get_volume() {
 	int vol;
 	snd_hctl_t *hctl;
 	snd_ctl_elem_id_t *id;
@@ -31,6 +31,7 @@ int get_volume(void) {
 	snd_hctl_close(hctl);
 	return vol;
 }
+/* END Source: dwm.suckless.org/dwmstatus/getvol.c*/
 
 int get_volume_perc() {
 	return 100*get_volume()/74; // 74 is the max number of decibels that will be returned bu get_volume()
