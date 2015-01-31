@@ -109,7 +109,8 @@ func nowPlaying(addr string) (np string, err error) {
 	r = string(reply)
 	arr = strings.Split(string(r), "\n")
 	if len(arr) > 5 {
-		var artist, title string
+		artist := ""
+		title := ""
 		for _, info := range arr {
 			field := strings.SplitN(info, ":", 2)
 			switch field[0] {
