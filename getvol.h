@@ -1,3 +1,5 @@
+#ifndef go_dwm
+#define go_dwm
 /* Source: dwm.suckless.org/dwmstatus/getvol.c*/
 #include <alsa/asoundlib.h>
 #include <alsa/control.h>
@@ -33,3 +35,5 @@ int get_volume(void) {
 int get_volume_perc() {
 	return 100*get_volume()/74; // 74 is the max number of decibels that will be returned bu get_volume()
 }
+
+#endif
