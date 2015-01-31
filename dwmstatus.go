@@ -122,7 +122,7 @@ func nowPlaying(addr string) (np string, err error) {
 				//do nothing with the field
 			}
 		}
-		np = artist + " - " + title
+		np = artist + " -" + title
 		return
 	} else { //This is a nonfatal error.
 		np = "Playlist is empty."
