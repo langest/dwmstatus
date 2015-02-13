@@ -123,6 +123,7 @@ func nowPlaying(addr string) (np string, err error) {
 			}
 		}
 		np = artist + " -" + title
+		np = strings.Replace(np, "&", "+", -1)
 		return
 	} else { //This is a nonfatal error.
 		np = "Playlist is empty."
