@@ -34,7 +34,7 @@ int get_volume() {
 /* END Source: dwm.suckless.org/dwmstatus/getvol.c*/
 
 int get_volume_perc() {
-	return 100*get_volume()/74; // 74 is the max number of decibels that will be returned bu get_volume()
+	return 100*get_volume()/74; // 74 is the max number of decibels that will be returned by get_volume()
 }
 
 #endif
