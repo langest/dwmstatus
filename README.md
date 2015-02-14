@@ -1,4 +1,4 @@
-go-dwmstatus
+dwmstatus
 ============
 
 Fork off ctgrl/go-dwmstatus that doesn't require any external libraries.
