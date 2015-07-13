@@ -55,7 +55,8 @@ func main() {
 			log.Println("Failed in getting mpd status:", err)
 		}
 		vol := getVolumePerc()
-		s := formatStatus("%s || Vol: %d%% || %s || %s", mpd, vol, bat, tim)
+		net := networkConn()
+		s := formatStatus("%s || %s || Vol: %d%% || %s || %s", mpd, net, vol, bat, tim)
 		setStatus(s)
 		time.Sleep(time.Second * 1)
 	}
