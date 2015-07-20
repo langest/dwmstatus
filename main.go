@@ -56,7 +56,7 @@ func main() {
 		}
 		vol := getVolumePerc()
 		net := networkConn()
-		s := formatStatus("%s || %s || Vol: %d%% || %s || %s", mpd, net, vol, bat, tim)
+		s := formatStatus("%s || %s || 🔊 %d%% || %s", mpd, net, vol, tim)
 		setStatus(s)
 		time.Sleep(time.Second * 1)
 	}
