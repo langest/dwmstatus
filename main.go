@@ -41,22 +41,16 @@ func main() {
 		log.Fatal("Can't open display")
 	}
 
-	dialMPD(mpdAddr)
-	defer closeMPD()
-
 	for {
 		tim := time.Now().Format("Mon 02 Jan 15:04")
 		bat, err := getBatteryStatus("/sys/class/power_supply/BAT0")
 		if err != nil {
 			log.Println(err)
 		}
-		mpd, err := nowPlaying()
-		if err != nil {
-			log.Println("Failed in getting mpd status:", err)
-		}
+		key := getKeyboardLayout()
 		vol := getVolumePerc()
 		net := networkConn()
-		s := formatStatus("%s || %s || 🔊 %d%% || %s", mpd, net, vol, tim)
+		s := formatStatus("%s || Key: %s || %s || 🔊 %d%% || %s", bat, key, net, vol, tim)
 		setStatus(s)
 		time.Sleep(time.Second * 1)
 	}
